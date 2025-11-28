@@ -4,7 +4,7 @@
     ViewData["Title"] = "Image to ASCII";
 }
 
-<h1>Image → ASCII (Color Half-Blocks)</h1>
+<h1>Image → ASCII (Color Blocks)</h1>
 
 <form method="post" enctype="multipart/form-data">
     <div>
@@ -17,8 +17,16 @@
     <div style="margin-top:8px;">
         <label>
             Width (chars):
-            <input type="number" name="TargetWidth" value="@Model.TargetWidth" min="20" max="400" />
+            <input type="range"
+                   id="widthSlider"
+                   name="TargetWidth"
+                   min="40"
+                   max="260"
+                   value="@Model.TargetWidth"
+                   oninput="document.getElementById('widthVal').textContent = this.value;" />
+            <span id="widthVal">@Model.TargetWidth</span>
         </label>
+
         <label style="margin-left:12px;">
             Font size (px):
             <input type="number" name="FontSize" value="@Model.FontSize" min="4" max="16" />
@@ -43,7 +51,14 @@
         font-size:@(Model.FontSize)px;
         line-height:@(Model.FontSize)px;
         white-space: pre;
-        ">
-        @Html.Raw(Model.AsciiArt)
-        </pre>
+        ">@Html.Raw(Model.AsciiArt)</pre>
 }
+
+<script>
+    // In case the page loads after a post, make sure the label matches the slider value
+    (function() {
+        var slider = document.getElementById('widthSlider');
+        var span = document.getElementById('widthVal');
+        if (slider && span) span.textContent = slider.value;
+    })();
+</script>
