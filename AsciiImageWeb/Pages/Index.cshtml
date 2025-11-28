@@ -1,0 +1,49 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Image to ASCII";
+}
+
+<h1>Image → ASCII (Color Half-Blocks)</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label>
+            Image:
+            <input type="file" name="imageFile" accept="image/*" />
+        </label>
+    </div>
+
+    <div style="margin-top:8px;">
+        <label>
+            Width (chars):
+            <input type="number" name="TargetWidth" value="@Model.TargetWidth" min="20" max="400" />
+        </label>
+        <label style="margin-left:12px;">
+            Font size (px):
+            <input type="number" name="FontSize" value="@Model.FontSize" min="4" max="16" />
+        </label>
+    </div>
+
+    <div style="margin-top:8px;">
+        <button type="submit">Upload</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p style="color:red">@Model.ErrorMessage</p>
+}
+
+@if (!string.IsNullOrEmpty(Model.AsciiArt))
+{
+    <h2>Result</h2>
+    <pre style="
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size:@(Model.FontSize)px;
+        line-height:@(Model.FontSize)px;
+        white-space: pre;
+        ">
+        @Html.Raw(Model.AsciiArt)
+        </pre>
+}
